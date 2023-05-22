@@ -110,7 +110,7 @@ const Hero = () => {
         <div className="row">
           <h2>
             <div className="line">
-              <span>Creating unique brand is</span>
+              <span>Creating unique brands is</span>
             </div>
             <div className="line">
               <span>what we do.</span>
