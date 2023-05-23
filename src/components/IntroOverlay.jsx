@@ -81,7 +81,7 @@ const IntroOverlayWrapper = styled.div`
 const IntroOverlay = () => {
   return (
     <>
-      <IntroOverlayWrapper>
+      <IntroOverlayWrapper className="intro-overlay">
         <div className="top">
           <div className="overlay-top"></div>
           <div className="overlay-top"></div>

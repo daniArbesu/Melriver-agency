@@ -7,22 +7,50 @@ import { gsap } from 'gsap';
 
 function App() {
   useEffect(() => {
-    // to avoid flashing
-    gsap.to('body', { css: { visibility: 'visible' }, duration: 0 });
+    // solution to avoid double render in React Strictmode
+    const ctx = gsap.context(() => {
+      // to avoid flashing
+      gsap.to('body', { css: { visibility: 'visible' }, duration: 0 });
+      // GSAP timeline
+      const tl = gsap.timeline();
 
-    // GSAP timeline
-    const tl = gsap.timeline();
-
-    tl.from('.line span', {
-      y: 100,
-      ease: 'power4.out',
-      duration: 1.8,
-      delay: 1,
-      skewY: 7,
-      stagger: {
-        amount: 0.3,
-      },
+      // show title with animation
+      tl.from('.line span', {
+        y: 100,
+        ease: 'power4.out',
+        duration: 1.8,
+        delay: 1,
+        skewY: 7,
+        stagger: {
+          amount: 0.3,
+        },
+      }) // move down the title black boxes
+        .to('.overlay-top', {
+          duration: 1.6,
+          height: 0,
+          ease: 'expo.inOut',
+          stagger: 0.4,
+        }) // make disappear boxes from right to left
+        .to('.overlay-bottom', {
+          duration: 1.6,
+          width: 0,
+          ease: 'expo.inOut',
+          stagger: 0.4,
+          delay: -0.8,
+        }) // disable intro-overlay to be able to select things
+        .to('.intro-overlay', {
+          duration: 0,
+          css: { display: 'none' },
+        })
+        .from('.case-image img', {
+          duration: 1.6,
+          scale: 1.4,
+          ease: 'expo.inOut',
+          stagger: 0.4,
+          delay: -2,
+        });
     });
+    return () => ctx.revert(); // <- cleanup!
   });
 
   return (
