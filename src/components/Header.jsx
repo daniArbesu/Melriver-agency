@@ -87,9 +87,6 @@ const Header = () => {
   useEffect(() => {
     if (menuState.menuOpened) {
       // Run animations to open menu
-      gsap.to('nav', { css: { display: 'block' } });
-      gsap.to('body', { css: { overflow: 'hidden' } });
-
       mm.add(
         {
           // The function runs when any of this conditions are met
@@ -100,11 +97,12 @@ const Header = () => {
           let { isTablet } = context.conditions;
           console.log(isTablet);
 
-          tl.to('.App', {
-            duration: 1,
-            y: isTablet ? '70svh' : '50svh',
-            ease: 'expo.inOut',
-          })
+          tl.to('body', { duration: 0.01, css: { overflow: 'hidden' } })
+            .to('.App', {
+              duration: 1,
+              y: isTablet ? '70svh' : '50svh',
+              ease: 'expo.inOut',
+            })
             .to('.hamburger-menu span', {
               duration: 0.6,
               delay: -1,
@@ -202,8 +200,7 @@ const Header = () => {
           duration: 0,
           css: { display: 'none' },
         })
-        .to('body', { css: { overflow: 'auto' } })
-        .to('nav', { css: { display: 'none' } });
+        .to('body', { css: { overflow: 'auto' } });
     }
   }, [menuState.menuOpened]);
 
