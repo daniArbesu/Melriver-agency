@@ -4,6 +4,7 @@ import { theme } from '../styles/theme';
 import ArrowUpCircle from './UI/ArrowUpCircle';
 import { useEffect, useState } from 'react';
 import { gsap } from 'gsap';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const HeaderWrapper = styled.header`
   position: fixed;
@@ -77,6 +78,11 @@ const mm = gsap.matchMedia();
 
 const Header = () => {
   const [menuState, setMenuState] = useState({ menuOpened: false });
+  const location = useLocation();
+
+  useEffect(() => {
+    setMenuState({ menuOpened: false });
+  }, [location]);
 
   useEffect(() => {
     if (menuState.menuOpened) {
@@ -84,14 +90,120 @@ const Header = () => {
       gsap.to('nav', { css: { display: 'block' } });
       gsap.to('body', { css: { overflow: 'hidden' } });
 
-      mm.add('(max-width: 654px)', () => {
-        tl.to('.App', { duration: 1, y: '70svh', ease: 'expo.inOut' });
-      });
-      mm.add('(min-width: 655px)', () => {
-        tl.to('.App', { duration: 1, y: '50svh', ease: 'expo.inOut' });
-      });
+      mm.add(
+        {
+          // The function runs when any of this conditions are met
+          isTablet: '(max-width: 654px)',
+          isDesktop: '(min-width: 655px)',
+        },
+        (context) => {
+          let { isTablet } = context.conditions;
+          console.log(isTablet);
+
+          tl.to('.App', {
+            duration: 1,
+            y: isTablet ? '70svh' : '50svh',
+            ease: 'expo.inOut',
+          })
+            .to('.hamburger-menu span', {
+              duration: 0.6,
+              delay: -1,
+              scaleX: 0,
+              transformOrigin: '50% 0%',
+              ease: 'expo.inOut',
+            })
+            .to('#Path_1', {
+              duration: 0.4,
+              delay: -0.6,
+              css: {
+                strokeDashoffset: 10,
+                strokeDasharray: 5,
+              },
+            })
+            .to('#Path_2', {
+              duration: 0.4,
+              delay: -0.6,
+              css: {
+                strokeDashoffset: 10,
+                strokeDasharray: 20,
+              },
+            })
+            .to('#Line_1', {
+              duration: 0.4,
+              delay: -0.6,
+              css: {
+                strokeDashoffset: 40,
+                strokeDasharray: 18,
+              },
+            })
+            .to('#circle', {
+              duration: 0.6,
+              delay: -0.8,
+              css: {
+                strokeDashoffset: 0,
+              },
+            })
+            .to('.hamburger-menu-close', {
+              duration: 0.6,
+              delay: -0.8,
+              css: {
+                display: 'block',
+              },
+            });
+        }
+      );
     } else {
       // Run close menu animations
+      tl.to('.App', {
+        duration: 1,
+        y: 0,
+        ease: 'expo.inOut',
+      })
+        .to('#circle', {
+          duration: 0.6,
+          delay: -0.6,
+          css: {
+            strokeDashoffset: -193,
+            strokeDasharray: 227,
+          },
+        })
+        .to('#Path_1', {
+          duration: 0.4,
+          delay: -0.6,
+          css: {
+            strokeDashoffset: 10,
+            strokeDasharray: 10,
+          },
+        })
+        .to('#Path_2', {
+          duration: 0.4,
+          delay: -0.6,
+          css: {
+            strokeDashoffset: 10,
+            strokeDasharray: 10,
+          },
+        })
+        .to('#Line_1', {
+          duration: 0.4,
+          delay: -0.6,
+          css: {
+            strokeDashoffset: 40,
+            strokeDasharray: 40,
+          },
+        })
+        .to('.hamburger-menu span', {
+          duration: 0.6,
+          delay: -0.6,
+          scaleX: 1,
+          transformOrigin: '50% 0%',
+          ease: 'expo.inOut',
+        })
+        .to('.hamburger-menu-close', {
+          duration: 0,
+          css: { display: 'none' },
+        })
+        .to('body', { css: { overflow: 'auto' } })
+        .to('nav', { css: { display: 'none' } });
     }
   }, [menuState.menuOpened]);
 
@@ -100,7 +212,7 @@ const Header = () => {
       <Container>
         <Row className="row">
           <div className="logo">
-            <a href="/">AGENCY.</a>
+            <NavLink to="/">AGENCY.</NavLink>
           </div>
           <div className="nav-toggle">
             <div
