@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Cases from '../components/Cases';
 import Hero from '../components/Hero';
 import IntroOverlay from '../components/IntroOverlay';
@@ -7,7 +7,7 @@ import { gsap } from 'gsap';
 // GSAP timeline
 const tl = gsap.timeline();
 
-const homeAnimation = (completeAnimation) => {
+const homeAnimation = () => {
   // show title with animation
   tl.from('.line span', {
     y: 100,
@@ -42,28 +42,21 @@ const homeAnimation = (completeAnimation) => {
       ease: 'expo.inOut',
       stagger: 0.4,
       delay: -2,
-      onComplete: completeAnimation,
     });
 };
 
 const Home = () => {
-  const [animationComplete, setAnimationComplete] = useState(false);
-
-  const completeAnimation = () => {
-    setAnimationComplete(true);
-  };
-
   useEffect(() => {
     // solution to avoid double render in React Strictmode
     const ctx = gsap.context(() => {
-      homeAnimation(completeAnimation);
+      homeAnimation();
     });
     return () => ctx.revert(); // <- cleanup!
   });
 
   return (
     <>
-      {animationComplete ? null : <IntroOverlay />}
+      <IntroOverlay />
       <Hero />
       <Cases />
     </>
