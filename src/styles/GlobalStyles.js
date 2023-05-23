@@ -26,16 +26,6 @@ html {
   transform: translateY(0);
   position: relative;
 }
-
-.page {
-  height: 100vh;
-  width: 100%;
-  background: ${theme.color.white};;
-  .row {
-    display: flex;
-    align-items: center;
-  }
-}
 `;
 
 export default GlobalStyle;

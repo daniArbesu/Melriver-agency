@@ -43,3 +43,13 @@ export const ContainerFluid = styled.div`
     height: 100%;
   }
 `;
+
+export const Page = styled.main`
+  height: 100vh;
+  width: 100%;
+  background: ${theme.color.white};
+  .row {
+    display: flex;
+    align-items: center;
+  }
+`;

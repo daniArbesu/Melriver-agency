@@ -1,9 +1,20 @@
 import { useEffect } from 'react';
-import Cases from './components/Cases';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import IntroOverlay from './components/IntroOverlay';
 import { gsap } from 'gsap';
+import Home from './pages/Home';
+import CaseStudies from './pages/CaseStudies';
+import Approach from './pages/Approach';
+import Services from './pages/Services';
+import About from './pages/About';
+import { Route, Routes } from 'react-router-dom';
+
+const routes = [
+  { path: '/', name: 'Home', Component: Home },
+  { path: '/case-studies', name: 'Case Studies', Component: CaseStudies },
+  { path: '/approach', name: 'Approach', Component: Approach },
+  { path: '/services', name: 'Services', Component: Services },
+  { path: '/about-us', name: 'About Us', Component: About },
+];
 
 function App() {
   useEffect(() => {
@@ -11,54 +22,23 @@ function App() {
     const ctx = gsap.context(() => {
       // to avoid flashing
       gsap.to('body', { css: { visibility: 'visible' }, duration: 0 });
-      // GSAP timeline
-      const tl = gsap.timeline();
-
-      // show title with animation
-      tl.from('.line span', {
-        y: 100,
-        ease: 'power4.out',
-        duration: 1.8,
-        delay: 1,
-        skewY: 7,
-        stagger: {
-          amount: 0.3,
-        },
-      }) // move down the title black boxes
-        .to('.overlay-top', {
-          duration: 1.6,
-          height: 0,
-          ease: 'expo.inOut',
-          stagger: 0.4,
-        }) // make disappear boxes from right to left
-        .to('.overlay-bottom', {
-          duration: 1.6,
-          width: 0,
-          ease: 'expo.inOut',
-          stagger: 0.4,
-          delay: -0.8,
-        }) // disable intro-overlay to be able to select things
-        .to('.intro-overlay', {
-          duration: 0,
-          css: { display: 'none' },
-        })
-        .from('.case-image img', {
-          duration: 1.6,
-          scale: 1.4,
-          ease: 'expo.inOut',
-          stagger: 0.4,
-          delay: -2,
-        });
     });
-    return () => ctx.revert(); // <- cleanup!
-  });
+
+    return () => {
+      ctx.revert(); // <- cleanup!
+    };
+  }, []);
 
   return (
-    <div className="App">
-      <IntroOverlay />
+    <div>
       <Header />
-      <Hero />
-      <Cases />
+      <div className="App">
+        <Routes>
+          {routes.map(({ path, Component }) => (
+            <Route key={path} exact path={path} element={<Component />} />
+          ))}
+        </Routes>
+      </div>
     </div>
   );
 }
