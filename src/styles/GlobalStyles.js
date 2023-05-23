@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
 
 body,
 html {
+  visibility: hidden;
   /* user-select: none; */
   background: ${theme.color.white};
   overscroll-behavior: none;
