@@ -21,6 +21,10 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+ul,li{
+  list-style: none;
+}
+
 .App {
   z-index: 2;
   transform: translateY(0);

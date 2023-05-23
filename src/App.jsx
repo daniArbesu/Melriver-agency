@@ -7,6 +7,7 @@ import Approach from './pages/Approach';
 import Services from './pages/Services';
 import About from './pages/About';
 import { Route, Routes } from 'react-router-dom';
+import Navigation from './components/Navigation';
 
 const routes = [
   { path: '/', name: 'Home', Component: Home },
@@ -39,6 +40,7 @@ function App() {
           ))}
         </Routes>
       </div>
+      <Navigation />
     </div>
   );
 }

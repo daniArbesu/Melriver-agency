@@ -21,7 +21,7 @@ const HeaderWrapper = styled.header`
     }
   }
 
-  nav {
+  .nav {
     width: 25px;
     @media (max-width: ${theme.breakpoints.phone}) {
       width: 20px;
@@ -49,10 +49,10 @@ const Header = () => {
           <div className="logo">
             <a href="/">AGENCY.</a>
           </div>
-          <nav>
+          <div className="nav">
             <span></span>
             <span></span>
-          </nav>
+          </div>
         </Row>
       </Container>
     </HeaderWrapper>
